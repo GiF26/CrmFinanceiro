@@ -1,0 +1,46 @@
+﻿<!-- Pages/Shared/_Sidebar.cshtml -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="menuLateral" aria-labelledby="menuLateralLabel">
+
+    <!-- Cabeçalho do Menu Lateral -->
+    <div class="offcanvas-header border-bottom bg-light">
+        <h5 class="offcanvas-title text-primary fw-bold" id="menuLateralLabel">Menu Principal</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+
+    <!-- Corpo do Menu Lateral -->
+    <div class="offcanvas-body d-flex flex-column p-0">
+
+        <!-- Links de Navegação -->
+        <ul class="navbar-nav flex-grow-1 px-3 py-4">
+            <li class="nav-item mb-2">
+                <a class="nav-link text-dark px-3 rounded text-decoration-none bg-light fw-semibold" asp-area="" asp-page="/Index">
+                     Painel de Conciliação
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link text-secondary px-3 rounded text-decoration-none hover-bg-light" asp-area="" asp-page="/Titulos">
+                     Gestão de Títulos
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link text-secondary px-3 rounded text-decoration-none hover-bg-light" asp-area="" asp-page="/Parceiros">
+                     Clientes e Fornecedores
+                </a>
+            </li>
+        </ul>
+
+        <!-- Área do Usuário (Fixa na base do Menu Lateral) -->
+        <div class="mt-auto border-top p-3 bg-light">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
+                    GF <!-- Iniciais de Giovanna Ferreira -->
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold text-dark">Giovanna Ferreira</h6>
+                    <small class="text-muted">Desenvolvedora Backend</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

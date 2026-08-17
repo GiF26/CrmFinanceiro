@@ -1,0 +1,29 @@
+﻿<!-- Pages/Shared/_Topbar.cshtml -->
+<header>
+    <nav class="navbar navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
+        <div class="container-fluid px-4">
+
+            <div class="d-flex align-items-center">
+                <!-- Botão que aciona o Offcanvas (Menu Lateral) -->
+                <button class="navbar-toggler me-3 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral" aria-controls="menuLateral">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Nome/Logo da Aplicação -->
+                <a class="navbar-brand fw-bold mb-0 h1" asp-area="" asp-page="/Index">
+                    CRM Financeiro - @ViewData["Title"]
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
+                    GF <!-- Iniciais de Giovanna Ferreira -->
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold text-dark">Giovanna Ferreira</h6>
+                    <small class="text-muted">Desenvolvedora Backend</small>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
