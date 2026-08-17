@@ -1,0 +1,38 @@
+﻿<!-- Pages/Shared/_Layout.cshtml -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrmFinanceiro - @ViewData["Title"]</title>
+
+    <!-- CSS Core -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CrmFinanceiro.styles.css" asp-append-version="true" />
+</head>
+
+<body class="bg-light">
+
+    <!-- 1. CHAMA A BARRA SUPERIOR -->
+    <partial name="_Topbar" />
+
+    <!-- 2. CHAMA O MENU LATERAL (OCULTO POR PADRÃO) -->
+    <partial name="_Sidebar" />
+
+    <!-- 3. ÁREA PRINCIPAL ONDE AS TELAS (COMO A INDEX) SÃO CARREGADAS -->
+    <div class="container-fluid px-4 pt-5 mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Scripts Core -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Sessão para scripts específicos de cada página -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

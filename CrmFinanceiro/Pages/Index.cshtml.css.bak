@@ -1,0 +1,25 @@
+/* Componente Base do Card Financeiro */
+.crm-card {
+    border-left-width: 5px;
+    border-left-style: solid;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+    /* Efeito Hover (Levanta levemente o card) */
+    .crm-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    }
+
+/* Modificadores de Cor (Seguindo a paleta do Bootstrap) */
+.crm-card-success {
+    border-left-color: #198754;
+}
+
+.crm-card-danger {
+    border-left-color: #dc3545;
+}
+
+.crm-card-primary {
+    border-left-color: #0d6efd;
+}

@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Conciliação Diária";
+}
+
+<div class="container-fluid mt-4">
+
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary fw-bold">Conciliação Diária</h2>
+            <p class="text-muted">Batimento de caixa e sugestões de tomada de decisão.</p>
+        </div>
+    </div>
+
+    <!-- 1. BLOCO DE CARDS (Resumo) -->
+    <div class="row mb-4">
+
+        <!-- Card Entradas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
+                <div class="card-body">
+                    <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
+                    <h3 class="mb-0 fw-bold text-dark">R$ 25.400,00</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Saídas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
+                <div class="card-body">
+                    <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
+                    <h3 class="mb-0 fw-bold text-dark">R$ 18.200,00</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Saldo -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
+                <div class="card-body">
+                    <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
+                    <h3 class="mb-0 fw-bold text-dark">R$ 7.200,00</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

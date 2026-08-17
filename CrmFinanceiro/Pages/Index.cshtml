@@ -1,0 +1,101 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Conciliação Diária";
+}
+
+<div class="container-fluid mt-4">
+
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary fw-bold">Conciliação Diária</h2>
+            <p class="text-muted">Batimento de caixa e sugestões de tomada de decisão.</p>
+        </div>
+    </div>
+
+    <!-- 1. BLOCO DE CARDS (Resumo) -->
+    <div class="row mb-4">
+
+        <!-- Card Entradas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
+                <div class="card-body">
+                    <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.TotalReceber.ToString("C") </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Saídas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
+                <div class="card-body">
+                    <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.TotalPagar.ToString("C") </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Saldo -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
+                <div class="card-body">
+                    <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.SaldoProjetado.ToString("C") </h3>
+                </div>
+            </div>
+        </div>
+
+        @* <div class="alert alert-warning shadow-sm mt-4" role="alert">
+            <strong>⚠️ Alerta de Risco:</strong> O fornecedor 'Tech Distribuidora' tem 2 títulos de alto valor vencendo amanhã.
+            <a href="#" class="alert-link">Clique aqui para ver sugestões de renegociação.</a>
+        </div> *@
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Títulos Pendentes de Ação</h6>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Documento</th>
+                                <th>Parceiro (Cliente/Fornecedor)</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th class="text-center">Ação Rápida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Linha 1 (Simulando uma saída) -->
+                            <tr>
+                                <td>NF-1002</td>
+                                <td>Tech Distribuidora</td>
+                                <td><span class="badge bg-danger">Saída</span></td>
+                                <td>R$ 5.000,00</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-success">Pagar</button>
+                                    <button class="btn btn-sm btn-outline-secondary">Postergar</button>
+                                </td>
+                            </tr>
+                            <!-- Linha 2 (Simulando uma entrada de conciliação) -->
+                            <tr>
+                                <td>PDV-Fechamento</td>
+                                <td>Loja Centro - Consumidor Final</td>
+                                <td><span class="badge bg-success">Entrada</span></td>
+                                <td>R$ 1.500,00</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary">Ver Detalhes</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

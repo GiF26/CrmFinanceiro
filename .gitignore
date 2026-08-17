@@ -97,6 +97,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.db
 
 # Chutzpah Test files
 _Chutzpah*
@@ -361,3 +362,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CrmFinanceiro/crm_financeiro.db
+/CrmFinanceiro/crm_financeiro.db-shm
+/CrmFinanceiro/crm_financeiro.db-wal
