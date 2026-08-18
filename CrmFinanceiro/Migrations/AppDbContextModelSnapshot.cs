@@ -42,6 +42,9 @@ namespace CrmFinanceiro.Migrations
                     b.Property<long>("PessoaId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("PessoaId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("StatusTitulo")
                         .HasColumnType("INTEGER");
 

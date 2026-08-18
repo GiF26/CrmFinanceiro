@@ -19,8 +19,8 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<FinanceiroCaixa>()
-        .Property(f => f.Valor)
-        .HasColumnType("decimal(18,2)");
+            .Property(f => f.Valor)
+            .HasColumnType("decimal(18,2)");
 
         // Configurando a Chave Estrangeira explicitamente
         modelBuilder.Entity<FinanceiroCaixa>()
