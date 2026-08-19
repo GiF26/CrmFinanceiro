@@ -1,0 +1,28 @@
+﻿
+<!-- BLOCO DASHBOARD -->
+<div class="row mb-4">
+    <!-- Gráfico 1: Fluxo de Caixa (Barras) -->
+    <div class="col-md-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="m-0 fw-bold text-primary">Previsão de Fluxo (Próximos 7 dias)</h6>
+            </div>
+            <div class="card-body">
+                <!-- O elemento canvas é onde a biblioteca de gráficos vai desenhar -->
+                <canvas id="graficoFluxo" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico 2: Concentração de Entradas (Rosca/Pizza) -->
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h6 class="m-0 fw-bold text-primary">Entradas por Parceiro</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="graficoParceiros" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

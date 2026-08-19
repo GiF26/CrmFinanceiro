@@ -33,7 +33,7 @@ public class FinanceiroCaixaService
         return await _context.FinanceiroCaixa
             .Where(t => t.StatusTitulo == 1 
             && t.TipoDocumento == "Entrada"
-            && t.DataVencimento == hoje)
+            /*&& t.DataVencimento == hoje*/)
             .SumAsync(t => t.Valor);
     }
 
@@ -42,25 +42,18 @@ public class FinanceiroCaixaService
         return await _context.FinanceiroCaixa
             .Where(t => t.StatusTitulo == 1 
             && t.TipoDocumento == "Saída"
-            && t.DataVencimento == hoje)
+            /*&& t.DataVencimento == hoje*/)
             .SumAsync(t => t.Valor);
     }
 
     public async Task<List<TitulosAcaoDTO>> CarregarTitulos()
     {
-        List<TitulosAcaoDTO> titulos = new List<TitulosAcaoDTO>();
-
-        List<FinanceiroCaixa> caixas = await _context.FinanceiroCaixa
+        return await _context.FinanceiroCaixa
             .Include(t => t.Pessoa)
-            .Where(t => t.DataVencimento == hoje)
+            .Select(c => new TitulosAcaoDTO(
+                    c.NumeroDocumento, c.Pessoa.Nome,
+                    c.TipoDocumento, c.Valor))
+            //.Where(t => t.DataVencimento == hoje)
             .ToListAsync();
-
-        foreach(var c in caixas)
-        {
-            titulos.Add(new TitulosAcaoDTO(c.NumeroDocumento, c.Pessoa.Nome, c.TipoDocumento, c.Valor));
-        }
-
-        return titulos;
     }
-
 }

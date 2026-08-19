@@ -14,96 +14,80 @@
         </div>
     </div>
 
-    <!-- 1. BLOCO DE CARDS (Resumo) -->
-    <div class="row mb-4">
-
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
-                <div class="card-body">
-                    <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.TotalReceber.ToString("C")</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
-                <div class="card-body">
-                    <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.TotalPagar.ToString("C") </h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
-                <div class="card-body">
-                    <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.SaldoProjetado.ToString("C") </h3>
-                </div>
-            </div>
-        </div>
-
         @* <div class="alert alert-warning shadow-sm mt-4" role="alert">
             <strong>⚠️ Alerta de Risco:</strong> O fornecedor 'Tech Distribuidora' tem 2 títulos de alto valor vencendo amanhã.
             <a href="#" class="alert-link">Clique aqui para ver sugestões de renegociação.</a>
         </div> *@
 
-        <div class="card shadow-sm mb-4 mt-4">
+        <partial name="_CardsResumo" model="Model.ResumoDia" />
+        <partial name="_Dashboard" />
+        <partial name="_GridTitulos" model="Model.Titulos" />
 
-            <div class="card-header bg-white py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Títulos Pendentes de Ação</h6>
-            </div>
+    @section Scripts {
+        <!-- Importando a biblioteca Chart.js via CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Documento</th>
-                                <th>Parceiro (Cliente/Fornecedor)</th>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                                <th class="text-center">Ação Rápida</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach(var t in @Model.Titulos){
-                            <tr>
-                                <td>@t.documento </td>
-                                <td>@t.parceiro</td>
-                                
-                                @if(t.tipo.Equals("Saída")){
-                                        
-                                    <td><span class="badge bg-danger">@t.tipo</span></td>
-                                }
-                                else
-                                {
-                                    <td><span class="badge bg-success">Entrada</span></td>
-                                }
-
-                                <td>@t.valor.ToString("c")</td>
-
-                                @if (t.tipo.Equals("Saída"))
-                                {
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-success">Pagar</button>
-                                        <button class="btn btn-sm btn-outline-secondary">Postergar</button>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary">Ver Detalhes</button>
-                                    </td>
-                                }
-                            </tr>
+        <script>
+                // 1. Gráfico de Previsão de Fluxo (Barras)
+                const ctxFluxo = document.getElementById('graficoFluxo').getContext('2d');
+                new Chart(ctxFluxo, {
+                    type: 'bar',
+                    data: {
+                        // Simulando os próximos 7 dias (começando por hoje)
+                        labels: ['19/08', '20/08', '21/08', '22/08', '23/08', '24/08', '25/08'],
+                        datasets: [
+                            {
+                                label: 'Entradas Projetadas',
+                                data: [58500, 12000, 15400, 8000, 32000, 14000, 9500],
+                                backgroundColor: '#198754', // Verde (Success do Bootstrap)
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Saídas Projetadas',
+                                data: [27200, 5000, 18000, 2000, 4500, 11000, 3000],
+                                backgroundColor: '#dc3545', // Vermelho (Danger do Bootstrap)
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
                         }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+                    }
+                });
+
+                // 2. Gráfico de Concentração de Parceiros (Rosca)
+                const ctxParceiros = document.getElementById('graficoParceiros').getContext('2d');
+                new Chart(ctxParceiros, {
+                    type: 'doughnut',
+                    data: {
+                        // Pegando alguns dos parceiros que você cadastrou no banco
+                        labels: ['Loja Matriz Paulista', 'Varejo Alpha', 'Cliente Final'],
+                        datasets: [{
+                            data: [33900, 24600, 1500],
+                            backgroundColor: [
+                                '#0d6efd', // Azul primário
+                                '#0dcaf0', // Ciano (Info)
+                                '#ffc107'  // Amarelo (Warning)
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        },
+                        cutout: '70%' // Deixa o gráfico mais fino e moderno
+                    }
+                });
+        </script>
+    }
 </div>

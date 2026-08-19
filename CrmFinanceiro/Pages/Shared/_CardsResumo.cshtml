@@ -1,0 +1,31 @@
+﻿@model CrmFinanceiro.Data.Dto.ResumoCaixaDTO
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
+            <div class="card-body">
+                <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
+                <h3 class="mb-0 fw-bold text-dark"> @Model.TotalReceber.ToString("C") </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
+            <div class="card-body">
+                <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
+                <h3 class="mb-0 fw-bold text-dark"> @Model.TotalPagar.ToString("C") </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
+            <div class="card-body">
+                <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
+                <h3 class="mb-0 fw-bold text-dark"> @Model.SaldoProjetado.ToString("C") </h3>
+            </div>
+        </div>
+    </div>
+</div>
