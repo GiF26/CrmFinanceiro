@@ -16,10 +16,10 @@ public class HistoricoAcao
 
     public long Id { get; private set; }
 
-    public int TituloId { get; private set; }
+    public long TituloId { get; private set; }
     public FinanceiroCaixa Titulo { get; private set; } = null!;
 
-    public int UsuarioId { get; private set; }
+    public long UsuarioId { get; private set; }
     public Usuario Usuario { get; private set; } = null!;
 
     public DateTime DataAcao { get; private set; } 

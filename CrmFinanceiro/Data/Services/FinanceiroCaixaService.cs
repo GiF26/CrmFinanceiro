@@ -1,5 +1,6 @@
-﻿using CrmFinanceiro.Data;
-using CrmFinanceiro.Data.Dto;
+﻿using CrmFinanceiro.Data.Dto;
+using CrmFinanceiro.Data.DTOs;
+using CrmFinanceiro.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrmFinanceiro.Data.Services;
@@ -7,31 +8,59 @@ namespace CrmFinanceiro.Data.Services;
 public class FinanceiroCaixaService
 {
     private readonly AppDbContext _context;
+    private readonly DateTime hoje = DateTime.Today;
 
     public FinanceiroCaixaService(AppDbContext context)
     {
         _context = context;
     }
 
-    public FinanceiroCaixaDTO carregaResumoDia()
+    // Transformamos o método em assíncrono para liberar o servidor durante a consulta
+    public async Task<ResumoCaixaDTO> CarregaResumoDiaAsync()
     {
-        return new FinanceiroCaixaDTO(CalcularReceber(), CalcularPagar());
+        // Aqui estamos disparando as duas buscas em paralelo para ficar ainda mais rápido!
+        var receberTask = CalcularReceberAsync();
+        var pagarTask = CalcularPagarAsync();
+
+        // Aguardamos ambas terminarem
+        await Task.WhenAll(receberTask, pagarTask);
+
+        return new ResumoCaixaDTO(receberTask.Result, pagarTask.Result);
     }
 
-    private decimal CalcularReceber()
+    private async Task<decimal> CalcularReceberAsync()
     {
-        var titulosAReceber = _context.FinanceiroCaixa
-            .Where(t => t.StatusTitulo ==1 && t.TipoDocumento.Equals("Entrada"))
-            .Sum(t => t.Valor);
-        return titulosAReceber;
+        return await _context.FinanceiroCaixa
+            .Where(t => t.StatusTitulo == 1 
+            && t.TipoDocumento == "Entrada"
+            && t.DataVencimento == hoje)
+            .SumAsync(t => t.Valor);
     }
 
-    private decimal CalcularPagar()
+    private async Task<decimal> CalcularPagarAsync()
     {
-        var titulosAPagar = _context.FinanceiroCaixa
-            .Where(t => t.StatusTitulo == 1 && t.TipoDocumento.Equals("Saída"))
-            .Sum(t => t.Valor);
-        return titulosAPagar;
+        return await _context.FinanceiroCaixa
+            .Where(t => t.StatusTitulo == 1 
+            && t.TipoDocumento == "Saída"
+            && t.DataVencimento == hoje)
+            .SumAsync(t => t.Valor);
     }
-    
+
+    public async Task<List<TitulosAcaoDTO>> CarregarTitulos()
+    {
+        List<TitulosAcaoDTO> titulos = new List<TitulosAcaoDTO>();
+
+        List<FinanceiroCaixa> caixas = await _context.FinanceiroCaixa
+            .Include(t => t.Pessoa)
+            .Where(t => t.DataVencimento == hoje)
+            .ToListAsync();
+
+        foreach(var c in caixas)
+        {
+            titulos.Add(new TitulosAcaoDTO(c.NumeroDocumento, c.Pessoa.Nome, c.TipoDocumento, c.Valor));
+        }
+
+        return titulos;
+    }
+
 }

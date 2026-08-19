@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CrmFinanceiro.Migrations
 {
     /// <inheritdoc />
-    public partial class InicializandoBanco : Migration
+    public partial class InicializandoBancoPerfeito : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,15 +44,14 @@ namespace CrmFinanceiro.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TitulosFinanceiros",
+                name: "FinanceiroCaixa",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     NumeroDocumento = table.Column<string>(type: "TEXT", nullable: false),
                     TipoDocumento = table.Column<string>(type: "TEXT", nullable: false),
-                    PessoaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PessoaId1 = table.Column<long>(type: "INTEGER", nullable: false),
+                    PessoaId = table.Column<long>(type: "INTEGER", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DataEmissao = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DataVencimento = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -62,10 +61,10 @@ namespace CrmFinanceiro.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TitulosFinanceiros", x => x.Id);
+                    table.PrimaryKey("PK_FinanceiroCaixa", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TitulosFinanceiros_Pessoas_PessoaId1",
-                        column: x => x.PessoaId1,
+                        name: "FK_FinanceiroCaixa_Pessoas_PessoaId",
+                        column: x => x.PessoaId,
                         principalTable: "Pessoas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -77,10 +76,8 @@ namespace CrmFinanceiro.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    TituloId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TituloId1 = table.Column<long>(type: "INTEGER", nullable: false),
-                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsuarioId1 = table.Column<long>(type: "INTEGER", nullable: false),
+                    TituloId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UsuarioId = table.Column<long>(type: "INTEGER", nullable: false),
                     DataAcao = table.Column<DateTime>(type: "TEXT", nullable: false),
                     TipoAcao = table.Column<int>(type: "INTEGER", nullable: false),
                     Observacao = table.Column<string>(type: "TEXT", nullable: false)
@@ -89,33 +86,33 @@ namespace CrmFinanceiro.Migrations
                 {
                     table.PrimaryKey("PK_HistoricoAcoes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HistoricoAcoes_TitulosFinanceiros_TituloId1",
-                        column: x => x.TituloId1,
-                        principalTable: "TitulosFinanceiros",
+                        name: "FK_HistoricoAcoes_FinanceiroCaixa_TituloId",
+                        column: x => x.TituloId,
+                        principalTable: "FinanceiroCaixa",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HistoricoAcoes_Usuarios_UsuarioId1",
-                        column: x => x.UsuarioId1,
+                        name: "FK_HistoricoAcoes_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoricoAcoes_TituloId1",
-                table: "HistoricoAcoes",
-                column: "TituloId1");
+                name: "IX_FinanceiroCaixa_PessoaId",
+                table: "FinanceiroCaixa",
+                column: "PessoaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoricoAcoes_UsuarioId1",
+                name: "IX_HistoricoAcoes_TituloId",
                 table: "HistoricoAcoes",
-                column: "UsuarioId1");
+                column: "TituloId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TitulosFinanceiros_PessoaId1",
-                table: "TitulosFinanceiros",
-                column: "PessoaId1");
+                name: "IX_HistoricoAcoes_UsuarioId",
+                table: "HistoricoAcoes",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
@@ -125,7 +122,7 @@ namespace CrmFinanceiro.Migrations
                 name: "HistoricoAcoes");
 
             migrationBuilder.DropTable(
-                name: "TitulosFinanceiros");
+                name: "FinanceiroCaixa");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

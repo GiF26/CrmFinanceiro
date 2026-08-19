@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CrmFinanceiro.Data.Services;
 using CrmFinanceiro.Data.Dto;
+using CrmFinanceiro.Data.DTOs;
 
 namespace CrmFinanceiro.Pages
 {
@@ -9,15 +9,21 @@ namespace CrmFinanceiro.Pages
     {
         private readonly FinanceiroCaixaService _financeiroCaixaService;
 
-        public FinanceiroCaixaDTO resumoDia = null;
+        public ResumoCaixaDTO ResumoDia { get; private set; }
+        public List<TitulosAcaoDTO> Titulos { get; private set; }
 
         public IndexModel(FinanceiroCaixaService financeiroCaixaService)
         {
             _financeiroCaixaService = financeiroCaixaService;
         }
+
         public void OnGet()
         {
-            resumoDia = _financeiroCaixaService.carregaResumoDia();
+            Task<ResumoCaixaDTO> resumoDia = _financeiroCaixaService.CarregaResumoDiaAsync();
+            Task<List<TitulosAcaoDTO>> titulos = _financeiroCaixaService.CarregarTitulos();
+
+            if (resumoDia != null) ResumoDia = resumoDia.Result;
+            if (titulos != null) Titulos = titulos.Result;
         }
     }
 }

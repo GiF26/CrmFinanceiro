@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrmFinanceiro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260818130039_InicializandoBancoPerfeito")]
+    [Migration("20260818233002_InicializandoBancoPerfeito")]
     partial class InicializandoBancoPerfeito
     {
         /// <inheritdoc />
@@ -78,23 +78,17 @@ namespace CrmFinanceiro.Migrations
                     b.Property<int>("TipoAcao")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TituloId")
+                    b.Property<long>("TituloId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("TituloId1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("UsuarioId1")
+                    b.Property<long>("UsuarioId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TituloId1");
+                    b.HasIndex("TituloId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("HistoricoAcoes");
                 });
@@ -168,13 +162,13 @@ namespace CrmFinanceiro.Migrations
                 {
                     b.HasOne("CrmFinanceiro.Data.Models.FinanceiroCaixa", "Titulo")
                         .WithMany()
-                        .HasForeignKey("TituloId1")
+                        .HasForeignKey("TituloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CrmFinanceiro.Data.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId1")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

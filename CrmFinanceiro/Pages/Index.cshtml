@@ -17,32 +17,29 @@
     <!-- 1. BLOCO DE CARDS (Resumo) -->
     <div class="row mb-4">
 
-        <!-- Card Entradas -->
         <div class="col-md-4">
             <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
                 <div class="card-body">
                     <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.TotalReceber.ToString("C") </h3>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.TotalReceber.ToString("C")</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card Saídas -->
         <div class="col-md-4">
             <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
                 <div class="card-body">
                     <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.TotalPagar.ToString("C") </h3>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.TotalPagar.ToString("C") </h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card Saldo -->
         <div class="col-md-4">
             <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
                 <div class="card-body">
                     <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
-                    <h3 class="mb-0 fw-bold text-dark"> @Model.resumoDia.SaldoProjetado.ToString("C") </h3>
+                    <h3 class="mb-0 fw-bold text-dark"> @Model.ResumoDia.SaldoProjetado.ToString("C") </h3>
                 </div>
             </div>
         </div>
@@ -52,7 +49,7 @@
             <a href="#" class="alert-link">Clique aqui para ver sugestões de renegociação.</a>
         </div> *@
 
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 mt-4">
 
             <div class="card-header bg-white py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Títulos Pendentes de Ação</h6>
@@ -71,27 +68,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Linha 1 (Simulando uma saída) -->
+
+                        @foreach(var t in @Model.Titulos){
                             <tr>
-                                <td>NF-1002</td>
-                                <td>Tech Distribuidora</td>
-                                <td><span class="badge bg-danger">Saída</span></td>
-                                <td>R$ 5.000,00</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-success">Pagar</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Postergar</button>
-                                </td>
+                                <td>@t.documento </td>
+                                <td>@t.parceiro</td>
+                                
+                                @if(t.tipo.Equals("Saída")){
+                                        
+                                    <td><span class="badge bg-danger">@t.tipo</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge bg-success">Entrada</span></td>
+                                }
+
+                                <td>@t.valor.ToString("c")</td>
+
+                                @if (t.tipo.Equals("Saída"))
+                                {
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-success">Pagar</button>
+                                        <button class="btn btn-sm btn-outline-secondary">Postergar</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-primary">Ver Detalhes</button>
+                                    </td>
+                                }
                             </tr>
-                            <!-- Linha 2 (Simulando uma entrada de conciliação) -->
-                            <tr>
-                                <td>PDV-Fechamento</td>
-                                <td>Loja Centro - Consumidor Final</td>
-                                <td><span class="badge bg-success">Entrada</span></td>
-                                <td>R$ 1.500,00</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-primary">Ver Detalhes</button>
-                                </td>
-                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>
