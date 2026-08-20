@@ -23,10 +23,11 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card shadow-sm h-100 py-3 crm-card crm-card-primary">
+        <div class="card shadow-sm h-100 py-3 crm-card crm-card-@Model.ClasseCorCrm">
             <div class="card-body">
                 <h6 class="fw-bold text-primary text-uppercase mb-1">Saldo Projetado</h6>
                 <h3 class="mb-0 fw-bold text-dark"> @Model.SaldoProjetado.ToString("C") </h3>
+                <p class="mt-2 fw-bold text-dark">Total de Títulos: @Model.Indicador</p>
             </div>
         </div>
     </div>

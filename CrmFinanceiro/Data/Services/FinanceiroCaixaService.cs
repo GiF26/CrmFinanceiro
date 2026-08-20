@@ -1,4 +1,5 @@
 ﻿using CrmFinanceiro.Data.DTOs;
+using CrmFinanceiro.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrmFinanceiro.Data.Services;
@@ -10,6 +11,25 @@ public class FinanceiroCaixaService
     public FinanceiroCaixaService(AppDbContext context)
     {
         _context = context;
+    }
+
+    private IQueryable<FinanceiroCaixa> ObterQueryFiltrada(FiltrosConciliacaoDTO f)
+    {
+        var query = _context.FinanceiroCaixa.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(f.Documento))
+            query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
+
+        if (!string.IsNullOrWhiteSpace(f.Parceiro))
+            query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
+
+        if (!string.IsNullOrWhiteSpace(f.Tipo))
+            query = query.Where(t => t.TipoDocumento == f.Tipo);
+
+        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
+        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
+
+        return query;
     }
 
     public async Task<ResumoCaixaDTO> CarregaResumoDiaAsync(FiltrosConciliacaoDTO f)
@@ -26,20 +46,7 @@ public class FinanceiroCaixaService
 
     private async Task<decimal> CalcularReceberAsync(FiltrosConciliacaoDTO f)
     {
-        var query = _context.FinanceiroCaixa
-                    .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(f.Documento)) query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
-
-        if (!string.IsNullOrWhiteSpace(f.Parceiro)) query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
-
-        if (!string.IsNullOrWhiteSpace(f.Tipo)) query = query.Where(t => t.TipoDocumento == f.Tipo);
-
-        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
-
-        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
-
-        return await query
+        return await ObterQueryFiltrada(f)
             .Where(t => t.StatusTitulo == 1 
             && t.TipoDocumento == "Entrada")
             .SumAsync(t => t.Valor);
@@ -47,20 +54,7 @@ public class FinanceiroCaixaService
 
     private async Task<decimal> CalcularPagarAsync(FiltrosConciliacaoDTO f)
     {
-        var query = _context.FinanceiroCaixa
-                    .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(f.Documento)) query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
-
-        if (!string.IsNullOrWhiteSpace(f.Parceiro)) query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
-
-        if (!string.IsNullOrWhiteSpace(f.Tipo)) query = query.Where(t => t.TipoDocumento == f.Tipo);
-
-        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
-
-        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
-
-        return await query
+        return await ObterQueryFiltrada(f)
             .Where(t => t.StatusTitulo == 1 
             && t.TipoDocumento == "Saída")
             .SumAsync(t => t.Valor);
@@ -68,20 +62,7 @@ public class FinanceiroCaixaService
 
     private async Task<int> CalcularTitulosReceber(FiltrosConciliacaoDTO f)
     {
-        var query = _context.FinanceiroCaixa
-            .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(f.Documento)) query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
-
-        if (!string.IsNullOrWhiteSpace(f.Parceiro)) query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
-
-        if (!string.IsNullOrWhiteSpace(f.Tipo)) query = query.Where(t => t.TipoDocumento == f.Tipo);
-
-        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
-
-        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
-
-        return await query
+        return await ObterQueryFiltrada(f)
             .Where(t => t.StatusTitulo == 1
             && t.TipoDocumento == "Entrada")
             .CountAsync();
@@ -89,20 +70,7 @@ public class FinanceiroCaixaService
 
     private async Task<int> CalcularTitulosPagar(FiltrosConciliacaoDTO f)
     {
-        var query = _context.FinanceiroCaixa
-            .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(f.Documento)) query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
-
-        if (!string.IsNullOrWhiteSpace(f.Parceiro)) query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
-
-        if (!string.IsNullOrWhiteSpace(f.Tipo)) query = query.Where(t => t.TipoDocumento == f.Tipo);
-
-        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
-
-        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
-
-        return await query
+        return await ObterQueryFiltrada(f)
             .Where(t => t.StatusTitulo == 1
             && t.TipoDocumento == "Saída")
             .CountAsync();
@@ -110,21 +78,7 @@ public class FinanceiroCaixaService
 
     public async Task<List<TitulosAcaoDTO>> CarregarTitulos(FiltrosConciliacaoDTO f)
     {
-        var query = _context.FinanceiroCaixa
-        .Include(t => t.Pessoa)
-        .AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(f.Documento)) query = query.Where(t => t.NumeroDocumento.Contains(f.Documento));
-
-        if (!string.IsNullOrWhiteSpace(f.Parceiro)) query = query.Where(t => t.Pessoa.Nome.Contains(f.Parceiro));
-
-        if (!string.IsNullOrWhiteSpace(f.Tipo)) query = query.Where(t => t.TipoDocumento == f.Tipo);
-
-        query = query.Where(t => t.DataVencimento.Date >= f.DataIni.Date);
-
-        query = query.Where(t => t.DataVencimento.Date <= f.DataFim.Date);
-
-        return await query
+        return await ObterQueryFiltrada(f)
             .Select(c => new TitulosAcaoDTO(
                 c.NumeroDocumento,
                 c.Pessoa.Nome,
