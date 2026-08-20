@@ -1,12 +1,13 @@
-﻿@model CrmFinanceiro.Data.Dto.ResumoCaixaDTO
+﻿@model CrmFinanceiro.Data.DTOs.ResumoCaixaDTO
 
 <div class="row mb-4">
 
     <div class="col-md-4">
         <div class="card shadow-sm h-100 py-3 crm-card crm-card-success">
             <div class="card-body">
-                <h6 class="fw-bold text-success text-uppercase mb-1">A Receber (Hoje)</h6>
+                <h6 class="fw-bold text-success text-uppercase mb-1">A Receber</h6>
                 <h3 class="mb-0 fw-bold text-dark"> @Model.TotalReceber.ToString("C") </h3>
+                <p class="mt-2 fw-bold text-dark">Total de Títulos: @Model.QtdTitulosReceber</p>
             </div>
         </div>
     </div>
@@ -14,8 +15,9 @@
     <div class="col-md-4">
         <div class="card shadow-sm h-100 py-3 crm-card crm-card-danger">
             <div class="card-body">
-                <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar (Hoje)</h6>
+                <h6 class="fw-bold text-danger text-uppercase mb-1">A Pagar</h6>
                 <h3 class="mb-0 fw-bold text-dark"> @Model.TotalPagar.ToString("C") </h3>
+                <p class="mt-2 fw-bold text-dark">Total de Títulos: @Model.QtdTitulosPagar</p>
             </div>
         </div>
     </div>

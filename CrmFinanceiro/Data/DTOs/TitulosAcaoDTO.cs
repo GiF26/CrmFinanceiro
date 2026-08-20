@@ -1,6 +1,12 @@
 ﻿namespace CrmFinanceiro.Data.DTOs;
 
-public record TitulosAcaoDTO(string documento, string parceiro, string tipo, decimal valor)
+public record TitulosAcaoDTO(string Documento, 
+                            string Parceiro, 
+                            string Tipo,
+                            DateTime DataEmissao,
+                            DateTime DataVencimento,
+                            DateTime? DataPagamento,
+                            decimal Valor)
 {
-    public readonly string flagTipo = tipo == "Saída" ? "badge bg-danger" : "badge bg-success";
+    public readonly string flagTipo = Tipo == "Saída" ? "badge bg-danger" : "badge bg-success";
 }

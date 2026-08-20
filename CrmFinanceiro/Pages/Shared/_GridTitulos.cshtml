@@ -1,47 +1,5 @@
 ﻿@model List<CrmFinanceiro.Data.DTOs.TitulosAcaoDTO>;
 
-<!-- BLOCO DE FILTROS -->
-<div class="bg-light p-3 rounded mb-3 border">
-    <form method="get" class="row g-2 align-items-end">
-
-        <div class="col-md-2">
-            <label class="form-label text-muted small mb-1">Nº Documento</label>
-            <input type="text" class="form-control form-control-sm" name="FiltroDoc" placeholder="Ex: NF-1002">
-        </div>
-
-        <div class="col-md-3">
-            <label class="form-label text-muted small mb-1">Parceiro</label>
-            <input type="text" class="form-control form-control-sm" name="FiltroParceiro" placeholder="Nome do Cliente/Forn.">
-        </div>
-
-        <div class="col-md-2">
-            <label class="form-label text-muted small mb-1">Tipo</label>
-            <select class="form-select form-select-sm" name="FiltroTipo">
-                <option value="">Todos</option>
-                <option value="Entrada">Entradas</option>
-                <option value="Saída">Saídas</option>
-            </select>
-        </div>
-
-        <div class="col-md-2">
-            <label class="form-label text-muted small mb-1">Data Início</label>
-            <input type="date" class="form-control form-control-sm" name="DataInicio">
-        </div>
-
-        <div class="col-md-2">
-            <label class="form-label text-muted small mb-1">Data Fim</label>
-            <input type="date" class="form-control form-control-sm" name="DataFim">
-        </div>
-
-        <div class="col-md-1 d-grid">
-            <button type="submit" class="btn btn-primary btn-sm">
-                Filtrar
-            </button>
-        </div>
-
-    </form>
-</div>
-
 <div class="card shadow-sm mb-4 mt-4">
 
     <div class="card-header bg-white py-3">
@@ -56,6 +14,9 @@
                         <th>Documento</th>
                         <th>Parceiro (Cliente/Fornecedor)</th>
                         <th>Tipo</th>
+                        <th class="text-center">Data Emissão</th>
+                        <th class="text-center">Data Vencimento</th>
+                        <th class="text-center">Data Pagamento</th>
                         <th>Valor</th>
                         <th class="text-center">Ação Rápida</th>
                     </tr>
@@ -65,24 +26,24 @@
                     @foreach (var t in @Model)
                     {
                         <tr>
-                            <td>@t.documento </td>
-                            <td>@t.parceiro</td>
-                            <td><span class="@t.flagTipo">@t.tipo</span></td>
-                            <td>@t.valor.ToString("c")</td>
+                            <td>@t.Documento </td>
+                            <td>@t.Parceiro</td>
+                            <td><span class="@t.flagTipo">@t.Tipo</span></td>
+                            <td>@t.DataEmissao.ToString("dd/MM/yyyy")</td>
+                            <td>@t.DataVencimento.ToString("dd/MM/yyyy")</td>
+                            <td>@t.DataPagamento?.ToString("dd/MM/yyyy")</td>
+                            <td>@t.Valor.ToString("c")</td>
 
-                            @if (t.tipo.Equals("Saída"))
-                            {
-                                <td class="text-center">
+                            <td class="text-center">
+                                @if (t.Tipo.Equals("Saída"))
+                                {
                                     <button class="btn btn-sm btn-outline-success">Pagar</button>
                                     <button class="btn btn-sm btn-outline-secondary">Postergar</button>
-                                </td>
-                            }
-                            else
-                            {
-                                <td class="text-center">
+                                }else
+                                {
                                     <button class="btn btn-sm btn-outline-primary">Ver Detalhes</button>
-                                </td>
-                            }
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

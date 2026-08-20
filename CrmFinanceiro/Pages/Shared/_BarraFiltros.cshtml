@@ -1,0 +1,42 @@
+﻿@model CrmFinanceiro.Pages.IndexModel
+
+<!-- BLOCO DE FILTROS -->
+<div class="bg-light p-3 rounded mb-3 border">
+    <form method="get" class="row g-2 align-items-end">
+
+        <div class="col-md-2">
+            <label class="form-label text-muted small mb-1">Nº Documento</label>
+            <input type="text" class="form-control form-control-sm" asp-for="FiltroDoc" placeholder="Ex: NF-1002">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label text-muted small mb-1">Parceiro</label>
+            <input type="text" class="form-control form-control-sm" asp-for="FiltroParceiro" placeholder="Nome do Cliente/Forn.">
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label text-muted small mb-1">Tipo</label>
+            <select class="form-select form-select-sm" asp-for="FiltroTipo">
+                <option value="">Todos</option>
+                <option value="Entrada">Entradas</option>
+                <option value="Saída">Saídas</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label text-muted small mb-1">Data Início</label>
+            <input type="date" class="form-control form-control-sm" asp-for="DataInicio">
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label text-muted small mb-1">Data Fim</label>
+            <input type="date" class="form-control form-control-sm" asp-for="DataFim">
+        </div>
+
+        <div class="col-md-1 d-grid">
+            <button type="submit" class="btn btn-primary btn-sm">
+                Filtrar
+            </button>
+        </div>
+    </form>
+</div>
