@@ -35,6 +35,14 @@
                     parceiros: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.GraficoEntradasParceiros))
                 };
         </script>
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
 
         <!-- 3. Chama o seu arquivo JavaScript separado -->
         <!-- O til (~) aponta para a pasta wwwroot do seu projeto -->
