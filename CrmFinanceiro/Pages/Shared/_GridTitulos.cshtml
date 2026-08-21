@@ -29,9 +29,9 @@
                             <td>@t.Documento </td>
                             <td>@t.Parceiro</td>
                             <td><span class="@t.flagTipo">@t.Tipo</span></td>
-                            <td>@t.DataEmissao.ToString("dd/MM/yyyy")</td>
-                            <td>@t.DataVencimento.ToString("dd/MM/yyyy")</td>
-                            <td>@t.DataPagamento?.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@t.DataEmissao.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@t.DataVencimento.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@t.DataPagamento?.ToString("dd/MM/yyyy")</td>
                             <td>@t.Valor.ToString("c")</td>
 
                             <td class="text-center">

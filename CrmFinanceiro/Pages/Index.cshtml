@@ -25,70 +25,19 @@
         <partial name="_GridTitulos" model="Model.Titulos" />
 
     @section Scripts {
-        <!-- Importando a biblioteca Chart.js via CDN -->
+        <!-- 1. Importa a biblioteca do Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <!-- 2. O C# cria as variáveis com os dados e entrega para o navegador -->
         <script>
-                // 1. Gráfico de Previsão de Fluxo (Barras)
-                const ctxFluxo = document.getElementById('graficoFluxo').getContext('2d');
-                new Chart(ctxFluxo, {
-                    type: 'bar',
-                    data: {
-                        // Simulando os próximos 7 dias (começando por hoje)
-                        labels: ['19/08', '20/08', '21/08', '22/08', '23/08', '24/08', '25/08'],
-                        datasets: [
-                            {
-                                label: 'Entradas Projetadas',
-                                data: [58500, 12000, 15400, 8000, 32000, 14000, 9500],
-                                backgroundColor: '#198754', // Verde (Success do Bootstrap)
-                                borderRadius: 4
-                            },
-                            {
-                                label: 'Saídas Projetadas',
-                                data: [27200, 5000, 18000, 2000, 4500, 11000, 3000],
-                                backgroundColor: '#dc3545', // Vermelho (Danger do Bootstrap)
-                                borderRadius: 4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom' }
-                        },
-                        scales: {
-                            y: { beginAtZero: true }
-                        }
-                    }
-                });
-
-                // 2. Gráfico de Concentração de Parceiros (Rosca)
-                const ctxParceiros = document.getElementById('graficoParceiros').getContext('2d');
-                new Chart(ctxParceiros, {
-                    type: 'doughnut',
-                    data: {
-                        // Pegando alguns dos parceiros que você cadastrou no banco
-                        labels: ['Loja Matriz Paulista', 'Varejo Alpha', 'Cliente Final'],
-                        datasets: [{
-                            data: [33900, 24600, 1500],
-                            backgroundColor: [
-                                '#0d6efd', // Azul primário
-                                '#0dcaf0', // Ciano (Info)
-                                '#ffc107'  // Amarelo (Warning)
-                            ],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom' }
-                        },
-                        cutout: '70%' // Deixa o gráfico mais fino e moderno
-                    }
-                });
+                window.dadosDashboard = {
+                    fluxo: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.GraficoFluxoSemanal)),
+                    parceiros: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.GraficoEntradasParceiros))
+                };
         </script>
+
+        <!-- 3. Chama o seu arquivo JavaScript separado -->
+        <!-- O til (~) aponta para a pasta wwwroot do seu projeto -->
+        <script src="~/js/dashboard-conciliacao.js"></script>
     }
 </div>

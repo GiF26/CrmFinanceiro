@@ -10,6 +10,8 @@ namespace CrmFinanceiro.Pages
         private readonly FinanceiroCaixaService _financeiroCaixaService;
         public ResumoCaixaDTO ResumoDia { get; private set; } = new ResumoCaixaDTO(0, 0, 0, 0);
         public List<TitulosAcaoDTO> Titulos { get; private set; } = new List<TitulosAcaoDTO>();
+        public ChartProjecaoSemanalDTO GraficoFluxoSemanal { get; private set; } = new ChartProjecaoSemanalDTO(new(), new(), new());
+        public ChartEntradasParceirosDTO GraficoEntradasParceiros { get; private set; } = new ChartEntradasParceirosDTO(new(), new(), new());
 
         [BindProperty(SupportsGet = true)]
         public string FiltroDoc { get; set; } = string.Empty;
@@ -36,10 +38,10 @@ namespace CrmFinanceiro.Pages
             FiltrosConciliacaoDTO filtros = new FiltrosConciliacaoDTO(FiltroDoc, FiltroParceiro, FiltroTipo, DataInicio, DataFim);
 
             ResumoDia = await _financeiroCaixaService.CarregaResumoDiaAsync(filtros);
+            GraficoFluxoSemanal = await _financeiroCaixaService.CarregaProjecaoSemanalAsync(filtros);
+            GraficoEntradasParceiros = await _financeiroCaixaService.CarregaConcentracaoParceirosAsync(filtros);
             Titulos = await _financeiroCaixaService.CarregarTitulos(filtros);
        
         }
-
-        
     }
 }
